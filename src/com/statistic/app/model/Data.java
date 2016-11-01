@@ -14,7 +14,7 @@ public class Data {
 	private final DoubleProperty price;
 	
 	public Data() {
-		this(null, null, null);
+		this(null, 0, 0.0);
 	}
 	
 	public Data(String city, Integer population, Double price) {
@@ -57,6 +57,11 @@ public class Data {
 	
 	public DoubleProperty getPriceProperty() {
 		return price;
+	}
+
+	@Override
+	public String toString() {
+		return "Data [cityName=" + cityName + ", population=" + population + ", price=" + price + "]";
 	}
 	
 	

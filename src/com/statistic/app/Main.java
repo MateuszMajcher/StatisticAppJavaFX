@@ -14,6 +14,7 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.*;
 import com.statistic.app.model.Data;
+import com.statistic.app.view.DataEditController;
 import com.statistic.app.view.DataViewController;
 
 import javafx.application.Application;
@@ -23,6 +24,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 public class Main extends Application {
@@ -119,7 +121,39 @@ public class Main extends Application {
 		return sample;
 	}
  	
-	
+	/**
+	 * Wyswietlanie okna dodawania i edycji danych
+	 * @param data edytowany obiekt
+	 * @return czy zatwierdzono
+	 */
+	public boolean showEditDataDialog(Data data) {
+		try {
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(Main.class.getResource("view/DataEdit.fxml"));
+			AnchorPane pane = (AnchorPane) loader.load();
+			
+			//utworzenie stage dla okna
+			Stage editStage = new Stage();
+			editStage.setTitle("Edycja");
+			editStage.initModality(Modality.WINDOW_MODAL);
+			editStage.initOwner(rootStage);
+			Scene scene = new Scene(pane);
+			editStage.setScene(scene);
+			
+			//ustawienie kontrolera
+			DataEditController controller = loader.getController();
+			controller.setStage(editStage);
+			controller.setData(data);
+			
+			editStage.showAndWait();
+			
+			return controller.isOkClick();
+		} catch (IOException e) {
+			e.printStackTrace();
+			return false;
+		}
+	} 
+
 	List<List<String>> readRecords(Path p) {
 	        try (BufferedReader reader = Files.newBufferedReader(p)) {
 	            return reader.lines()

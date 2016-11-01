@@ -6,6 +6,8 @@ import com.statistic.app.Main;
 import com.statistic.app.model.Data;
 import com.statistic.app.util.WindowUtil;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -46,7 +48,11 @@ public class DataViewController {
 	@FXML
 	private TableColumn<Data, Double> priceColumnE;
 	
+	//aktualna zakladka
+	TableView<Data> tempTabs;
 	
+	//aktualna zakladka
+	Integer idTabs = 0;
 	
 	
 	@FXML
@@ -67,8 +73,27 @@ public class DataViewController {
 		populationColumnE.setCellValueFactory(t -> t.getValue().getPopulationProperty().asObject());
 		priceColumnE.setCellValueFactory(t -> t.getValue().getPriceProperty().asObject());
 		
+		//ustawienie referencje na tab 0
+		setReferenceTab(0);
+		
+		//akcja zmieniajaca refencje tab
+		tabs.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
+
+			@Override
+			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+				idTabs = newValue.intValue();
+				setReferenceTab(idTabs);
+			}
+		});
 	}
 
+	/**
+	 * Ustawienie referencji do main
+	 * Ustawienie item dla tabel
+	 * Uaktualninie statystyk
+	 * dodanie listenorow 
+	 * @param main referncja do main
+	 */
 	public void setReference(Main main) {
 		this.main = main;
 		dataTable.setItems(main.getData());
@@ -80,7 +105,7 @@ public class DataViewController {
 		        updateStatistic();
 		        while (c.next()) {
 		            if (c.wasAdded()) {
-		                logger.info("Added");
+		                logger.info("Added: " + c);
 		            } else if (c.wasUpdated()) {
 		                logger.info("Update");
 		            } else {
@@ -93,11 +118,6 @@ public class DataViewController {
 		});
 	}
 	
-	private TableView<Data> getData() {
-		int id = tabs.getSelectionModel().getSelectedIndex();
-		if (id == 0) return dataTable;
-		return null;
-	}
 	
 	/**
 	 * uaktualnienie statystyk
@@ -111,9 +131,9 @@ public class DataViewController {
 	 */
 	@FXML
 	private void handleDelete() {
-		int id = dataTable.getSelectionModel().getSelectedIndex();
+		int id = tempTabs.getSelectionModel().getSelectedIndex();
 		if (id >= 0) {
-			dataTable.getItems().remove(id);
+			tempTabs.getItems().remove(id);
 		} else {
 			WindowUtil.showAlert(AlertType.WARNING,
 					main.getStage(),
@@ -123,7 +143,29 @@ public class DataViewController {
 		}
 	}
 	
+	/**
+	 * Ustawienie refencji do aktywnej zakladki
+	 * @param id id aktywnej zakladki tabeli
+	 */
+	public void setReferenceTab(Integer id) {
+		if (id == 0) {
+			tempTabs = dataTable;
+		} else {
+			tempTabs = dataTableE;
+		}
+	}
 	
+	@FXML
+	private void handleNew() {
+		Data t = new Data();
+		boolean click = main.showEditDataDialog(t);
+		if (click) {
+			if (idTabs == 0) 
+				main.getData().add(t);
+			else if (idTabs == 1)
+				main.getSample().add(t);
+		}
+	}
 		
 	
 }

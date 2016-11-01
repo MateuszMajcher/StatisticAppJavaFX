@@ -1,5 +1,7 @@
 package com.statistic.app.util;
 
+import javax.print.attribute.standard.RequestingUserName;
+
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
@@ -23,5 +25,23 @@ public class WindowUtil {
 		alert.setHeaderText(header);
 		alert.setContentText(content);
 		alert.showAndWait();
+	}
+	
+	public static boolean isDouble(String number) {
+		try {
+			Double.parseDouble(number);
+		} catch (NumberFormatException e) {
+			return false;
+		}
+		return true;
+	}
+	
+	public static boolean isInt(String number) {
+		try {
+			Integer.parseInt(number);
+		} catch (NumberFormatException e) {
+			return false;
+		}
+		return true;
 	}
 }
