@@ -63,7 +63,7 @@
                   <ButtonBar buttonMinWidth="65.0" prefHeight="30.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                     <buttons>
                       <Button minWidth="45.0" mnemonicParsing="false" onAction="#handleNew" prefHeight="25.0" text="Nowy" />
-                        <Button mnemonicParsing="false" text="Edytuj" />
+                        <Button mnemonicParsing="false" onAction="#handleEdit" text="Edytuj" />
                         <Button mnemonicParsing="false" onAction="#handleDelete" text="Usuń" />
                     </buttons>
                      <padding>

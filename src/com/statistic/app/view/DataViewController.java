@@ -155,6 +155,9 @@ public class DataViewController {
 		}
 	}
 	
+	/**
+	 * Dodanie nowego rekordu
+	 */
 	@FXML
 	private void handleNew() {
 		Data t = new Data();
@@ -167,5 +170,20 @@ public class DataViewController {
 		}
 	}
 		
-	
+	/**
+	 * Edycja istniejacego rekordu
+	 */
+	@FXML
+	private void handleEdit() {
+		Data sel = tempTabs.getSelectionModel().getSelectedItem();
+		if (sel != null) {
+			boolean click = main.showEditDataDialog(sel);
+		} else {
+			WindowUtil.showAlert(AlertType.WARNING,
+					main.getStage(),
+					"Brak zaznaczenia", 
+					"Brak zaznaczenia", 
+					"Zaznacz rekord aby edytowaæ");
+		}
+	}
 }

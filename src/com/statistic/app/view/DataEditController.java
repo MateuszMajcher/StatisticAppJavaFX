@@ -40,7 +40,7 @@ public class DataEditController {
 		this.data = data;
 		cityNameField.setText(data.getCityName());
 		populationField.setText(data.getPopulation().toString());
-		populationField.setText(data.getPopulation().toString());
+		priceField.setText(data.getPrice().toString());
 	}
 	
 	

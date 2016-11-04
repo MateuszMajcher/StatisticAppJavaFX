@@ -1,6 +1,7 @@
 package com.statistic.app;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.UncheckedIOException;
@@ -11,17 +12,27 @@ import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Logger;
+import java.util.prefs.Preferences;
 import java.util.stream.Collectors;
+
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
+
 import java.util.stream.*;
 import com.statistic.app.model.Data;
+import com.statistic.app.model.DataWrapper;
+import com.statistic.app.util.WindowUtil;
 import com.statistic.app.view.DataEditController;
 import com.statistic.app.view.DataViewController;
+import com.statistic.app.view.WindowRootController;
 
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
@@ -34,6 +45,7 @@ public class Main extends Application {
 	//panel okna
 	private BorderPane rootPane;
 	
+	
 	private ObservableList<Data> group = FXCollections.observableArrayList();
 	private ObservableList<Data> sample = FXCollections.observableArrayList();
 
@@ -42,8 +54,8 @@ public class Main extends Application {
 		List<List<String>> value = readRecords(path);
 		for (List<String> x : value) {
 			group.add(new Data(x.get(0),
-					Integer.valueOf(x.get(1)),
-					Double.valueOf(x.get(2))));
+					Integer.valueOf(x.get(2)),
+					Double.valueOf(x.get(1))));
 		}
 		
 		logger.info("Wczytano " + group.size());
@@ -52,8 +64,8 @@ public class Main extends Application {
 		List<List<String>> v = readRecords(p);
 		for (List<String> x : v) {
 			sample.add(new Data(x.get(0),
-					Integer.valueOf(x.get(1)),
-					Double.valueOf(x.get(2))));
+					Integer.valueOf(x.get(2)),
+					Double.valueOf(x.get(1))));
 		}
 		
 		logger.info("Wczytano " + sample.size());
@@ -80,6 +92,10 @@ public class Main extends Application {
 			//ustawienie sceny
 			Scene scene = new Scene(rootPane);
 			rootStage.setScene(scene);
+			
+			//ustawienie kontrolera
+			WindowRootController controller = loader.getController();
+			controller.setMain(this);
 			rootStage.show();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -154,6 +170,52 @@ public class Main extends Application {
 		}
 	} 
 
+	/**
+	 * Ladowanie dabych z pliku
+	 * @param file
+	 */
+	public void loadDataFromFile(File file, ObservableList<Data> data) {
+		try {
+			JAXBContext ctx = JAXBContext.newInstance(DataWrapper.class);
+			Unmarshaller m = ctx.createUnmarshaller();
+			
+			DataWrapper wrapper = (DataWrapper) m.unmarshal(file);
+			data.clear();
+			data.addAll(wrapper.getData());
+	
+		} catch (Exception e) {
+			WindowUtil.showAlert(AlertType.ERROR,
+					null, 
+					"Error", 
+					"Nie mozna odczytac danych", 
+					"NIe mozna odzczytac danych z "  + file.getPath());
+		}
+	}
+	
+	/**
+	 * Zapis danych do pliku
+	 * @param file
+	 */
+	public void saveDataToFile(File file, ObservableList<Data> data) {
+		try {
+			JAXBContext ctx = JAXBContext.newInstance(DataWrapper.class);
+			Marshaller m = ctx.createMarshaller();
+			m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+			
+			DataWrapper w = new DataWrapper();
+			w.setData(data);
+			
+			m.marshal(w, file);
+		} catch (Exception e) {
+			e.printStackTrace();
+			WindowUtil.showAlert(AlertType.ERROR,
+					null, 
+					"Error", 
+					"Nie mozna zapisac danych", 
+					"NIe mozna zapisac danych w "  + file.getPath());
+		}
+	} 
+	
 	List<List<String>> readRecords(Path p) {
 	        try (BufferedReader reader = Files.newBufferedReader(p)) {
 	            return reader.lines()
@@ -165,6 +227,34 @@ public class Main extends Application {
 	        }
 	    }  
 	 
+	/**
+	 * Zwraca ostatnio otwarty plik
+	 * @return ostatnio otwarty plik
+	 */
+	public File getDataFilePath(String value) {
+		Preferences p = Preferences.userNodeForPackage(Main.class);
+		String Path = p.get(value, null);
+		if (Path != null) {
+			return new File(Path);
+		} else {
+			return null;
+		}
+	}
+	
+	/**
+	 * Ustawienie sciezki otwartego pliku w rejestrze systemowym
+	 * @param file plik dla ktorego ma zostac ustawiona sciezka
+	 */
+	public void setDataFilePath(File file, String value) {
+		Preferences p = Preferences.userNodeForPackage(Main.class);
+		if (file != null) {
+			p.put(value, file.getPath());
+			rootStage.setTitle("Estymacja " + file.getPath());
+		} else {
+			p.remove(value);
+		}
+	}
+	
 	public static void main(String[] args) {
 		launch(args);
 	}
