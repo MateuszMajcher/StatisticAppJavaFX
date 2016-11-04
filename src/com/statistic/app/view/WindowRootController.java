@@ -5,9 +5,11 @@ import java.util.List;
 
 import com.statistic.app.Main;
 import com.statistic.app.model.Data;
+import com.statistic.app.util.WindowUtil;
 
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert.AlertType;
 import javafx.stage.FileChooser;
 
 public class WindowRootController {
@@ -123,7 +125,15 @@ public class WindowRootController {
 	 */
 	@FXML
 	private void handleAbout() {
-	
+		WindowUtil.showAlert(AlertType.INFORMATION
+				, main.getStage(),
+				"Analiza i wizualizacja danych",
+				"Szacowanie cenny za metr kwadratowy (m2) mieszkania w miescie\n na "+
+				"podstawie liczby mieszkanców miasta."
+				,"Wykonali\n"+
+				"Mateusz Majcher\n"+
+						"Ariel Trybek\n"+
+				"Bart³omiej Loranty");
 	}
 
 	/**

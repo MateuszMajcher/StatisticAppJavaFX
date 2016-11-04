@@ -10,7 +10,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
+import java.util.DoubleSummaryStatistics;
 import java.util.List;
+import java.util.Map;
+import java.util.function.ToDoubleFunction;
 import java.util.logging.Logger;
 import java.util.prefs.Preferences;
 import java.util.stream.Collectors;
@@ -50,7 +53,12 @@ public class Main extends Application {
 	private ObservableList<Data> sample = FXCollections.observableArrayList();
 
 	public Main() {
-		Path path = Paths.get(URI.create("file:///C:/workspace/Miasta.csv"));
+		debug();
+		
+	}
+	
+	private void debug() {
+		Path path = Paths.get(URI.create("file:///C:/Users/Mateusz/workspace/EstymacjaApp/dane.csv"));
 		List<List<String>> value = readRecords(path);
 		for (List<String> x : value) {
 			group.add(new Data(x.get(0),
@@ -69,7 +77,6 @@ public class Main extends Application {
 		}
 		
 		logger.info("Wczytano " + sample.size());
-		
 	}
 	
 	@Override
@@ -78,7 +85,24 @@ public class Main extends Application {
 		this.rootStage.setTitle("Estymacja");
 		initWindowRoot();
 		initDataView();
+		
+		double sum = group.stream().mapToDouble(Data::getPrice).sum();
+		Map<String, DoubleSummaryStatistics> data = group.stream()
+                .collect(Collectors.groupingBy(Data::getCityName,
+                                    Collectors.summarizingDouble(Data::getPrice)));
+		
+		
+		DoubleSummaryStatistics stat = group
+				.stream()
+				.filter(x -> x.getPrice() > 0.0)
+				.collect(Collectors.summarizingDouble(p->p.getPrice()));
+		
+		System.out.println(stat);
+		
+		System.out.println();
 	}
+	
+	
 	
 	/**
 	 * Inicializacja g³ównego okna aplikacji

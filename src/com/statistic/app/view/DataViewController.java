@@ -1,9 +1,11 @@
 package com.statistic.app.view;
 
+import java.util.DoubleSummaryStatistics;
 import java.util.logging.Logger;
 
 import com.statistic.app.Main;
 import com.statistic.app.model.Data;
+import com.statistic.app.util.Statistics;
 import com.statistic.app.util.WindowUtil;
 
 import javafx.beans.value.ChangeListener;
@@ -56,7 +58,12 @@ public class DataViewController {
 	
 	
 	@FXML
-	private Label average; //srednia
+	private Label count; //srednia
+	@FXML
+	private Label max; //max
+	@FXML
+	private Label min; //min
+	
 	
 	//referencja do maina
 	private Main main;
@@ -102,7 +109,7 @@ public class DataViewController {
 		main.getData().addListener(new ListChangeListener <Data> () {
 		    @Override
 		    public void onChanged(javafx.collections.ListChangeListener.Change <? extends Data> c) {
-		        updateStatistic();
+		        
 		        while (c.next()) {
 		            if (c.wasAdded()) {
 		                logger.info("Added: " + c);
@@ -114,8 +121,11 @@ public class DataViewController {
 		                }
 		            }
 		        }
+		        updateStatistic();
 		    }
 		});
+		System.out.println(Statistics.getVariance(main.getData(),Data::getPrice));
+		System.out.println(Statistics.getMedian(main.getData(),Data::getPrice));
 	}
 	
 	
@@ -123,7 +133,19 @@ public class DataViewController {
 	 * uaktualnienie statystyk
 	 */
 	public void updateStatistic() {
-		average.setText(Integer.toString(main.getData().size()));
+		//normalizacja
+		//Statistics.Normalize(main.getData());
+		//Pobranie statystyk
+		DoubleSummaryStatistics stat = Statistics.getStats(main.getData(), Data::getPrice);
+		System.out.println(stat);
+		//Liczebnosc
+		count.setText(Long.toString(stat.getCount()));
+		//max
+		max.setText(Double.toString(stat.getMax()));
+		//min
+		min.setText(Double.toString(stat.getMin()));
+		
+		
 	}
 	
 	/**
