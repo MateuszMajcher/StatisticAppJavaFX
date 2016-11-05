@@ -15,7 +15,6 @@ Wagrowiec;2750;25313
 Walcz;2705;26231
 Zagan;2103;26426
 Wyszkow;4100;27309
-Zakopane;9520;27442
 Brodnica;2920;27731
 Gorlice;3100;28243
 Nowy Dwor Mazowiecki;4000;28395
@@ -40,7 +39,6 @@ Jaslo;2724;36260
 Olkusz;3000;36398
 Sochaczew;3700;37374
 Olesnica;3857;37450
-Sopot;9364;37457
 Wolomin;4450;37528
 Jaroslaw;3100;38360
 Zary;2400;38527
@@ -78,7 +76,7 @@ Legionowo;5350;54272
 Raciborz;2305;55492
 Zgierz;3250;57803
 Bedzin;2810;58425
-Kedzierzyn Koźle;2550;58749
+Kedzierzyn Kozle;2550;58749
 Belchatow;2650;59025
 Zory;2704;59960
 Pruszkow;6504;60068
@@ -86,7 +84,7 @@ Elk;2592;60462
 Tczew;3502;60641
 Mielec;3205;60827
 Przemysl;2850;62720
-Łomza;3272;62779
+Lomza;3272;62779
 Stalowa Wola;2753;63434
 Tomaszow Mazowiecki;2900;64289
 Leszno;3203;64722
@@ -140,6 +138,6 @@ Bydgoszcz;3860;355645
 Szczecin;4195;405657
 Poznan;5434;542348
 Wroclaw;5763;637075
-Łodź;3818;698688
+Lodz;3818;698688
 Krakow;6831;762448
 Warszawa;8325;1748916

@@ -1,6 +1,8 @@
 package com.statistic.app.util;
 
-import javax.print.attribute.standard.RequestingUserName;
+
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -27,6 +29,11 @@ public class WindowUtil {
 		alert.showAndWait();
 	}
 	
+	/**
+	 * Sprawdza czy podany string mozna parsowac na double
+	 * @param number ciag tekstowy
+	 * @return true jesli mozna parsowac
+	 */
 	public static boolean isDouble(String number) {
 		try {
 			Double.parseDouble(number);
@@ -36,6 +43,12 @@ public class WindowUtil {
 		return true;
 	}
 	
+	
+	/**
+	 * Sprawdza czy podany string mozna parsowac na int
+	 * @param number ciag tekstowy
+	 * @return true jesli mozna parsowac
+	 */
 	public static boolean isInt(String number) {
 		try {
 			Integer.parseInt(number);
@@ -43,5 +56,12 @@ public class WindowUtil {
 			return false;
 		}
 		return true;
+	}
+	
+	public static Double setDoublePrecision(Double val, int p) {
+		return BigDecimal
+				.valueOf(val)
+				.setScale(p, RoundingMode.HALF_UP)
+				.doubleValue();
 	}
 }

@@ -37,7 +37,7 @@ public class DataViewController {
 	@FXML
 	private TableColumn<Data, Double> priceColumn;
 	
-	/*estymacja*/
+	
 	@FXML
 	private TableView<Data> dataTableE;
 	
@@ -63,7 +63,14 @@ public class DataViewController {
 	private Label max; //max
 	@FXML
 	private Label min; //min
-	
+	@FXML
+	private Label average; //wartosc oczekiwana
+	@FXML
+	private Label median; //mediana
+	@FXML
+	private Label standardDeviation; //odchylenie stand.
+	@FXML
+	private Label correlation; //korelacja
 	
 	//referencja do maina
 	private Main main;
@@ -124,8 +131,7 @@ public class DataViewController {
 		        updateStatistic();
 		    }
 		});
-		System.out.println(Statistics.getVariance(main.getData(),Data::getPrice));
-		System.out.println(Statistics.getMedian(main.getData(),Data::getPrice));
+		System.out.println(Statistics.getCorrelation(main.getData(), Data::getPrice, Data::getPopulation));
 	}
 	
 	
@@ -134,7 +140,7 @@ public class DataViewController {
 	 */
 	public void updateStatistic() {
 		//normalizacja
-		//Statistics.Normalize(main.getData());
+		Statistics.Normalize(main.getData());
 		//Pobranie statystyk
 		DoubleSummaryStatistics stat = Statistics.getStats(main.getData(), Data::getPrice);
 		System.out.println(stat);
@@ -144,7 +150,18 @@ public class DataViewController {
 		max.setText(Double.toString(stat.getMax()));
 		//min
 		min.setText(Double.toString(stat.getMin()));
+		System.out.println(Double.toString(stat.getMin()));
+		//wart oczekiwana
+		average.setText(Double.toString(stat.getAverage()));
+		//mediana
+		median.setText(Double.toString(
+				Statistics.getMedian(main.getData(),Data::getPrice)));
+		//
+		standardDeviation.setText(Double.toString(
+				Statistics.getStandardDeviation(main.getData(),Data::getPrice)));
 		
+		correlation.setText(Double.toString(
+				Statistics.getCorrelation(main.getData(), Data::getPrice, Data::getPopulation)));
 		
 	}
 	

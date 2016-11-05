@@ -86,20 +86,6 @@ public class Main extends Application {
 		initWindowRoot();
 		initDataView();
 		
-		double sum = group.stream().mapToDouble(Data::getPrice).sum();
-		Map<String, DoubleSummaryStatistics> data = group.stream()
-                .collect(Collectors.groupingBy(Data::getCityName,
-                                    Collectors.summarizingDouble(Data::getPrice)));
-		
-		
-		DoubleSummaryStatistics stat = group
-				.stream()
-				.filter(x -> x.getPrice() > 0.0)
-				.collect(Collectors.summarizingDouble(p->p.getPrice()));
-		
-		System.out.println(stat);
-		
-		System.out.println();
 	}
 	
 	
