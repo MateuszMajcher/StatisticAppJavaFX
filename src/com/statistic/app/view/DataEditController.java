@@ -1,10 +1,28 @@
 package com.statistic.app.view;
 
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.geom.Rectangle2D;
+
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.block.BlockBorder;
+import org.jfree.chart.plot.XYPlot;
+import org.jfree.chart.renderer.xy.XYItemRenderer;
+import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
+import org.jfree.chart.title.TextTitle;
+import org.jfree.data.time.Month;
+import org.jfree.data.time.TimeSeries;
+import org.jfree.data.time.TimeSeriesCollection;
+import org.jfree.data.xy.XYDataset;
+import org.jfree.fx.FXGraphics2D;
+
 import com.statistic.app.model.Data;
 import com.statistic.app.util.WindowUtil;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.canvas.Canvas;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
@@ -95,9 +113,6 @@ public class DataEditController {
 			
 			return false;
 		}
-		
-		
 	}
-	
 	
 }
