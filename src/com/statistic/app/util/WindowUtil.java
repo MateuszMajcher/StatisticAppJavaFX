@@ -58,6 +58,22 @@ public class WindowUtil {
 		return true;
 	}
 	
+	/**
+	 * Konwertuje string na double i ustawia precyzje
+	 * @param val string
+	 * @param p wartosc precyzji
+	 * @return wartosc double
+	 */
+	public static Double setDoublePrecision(String val, int p) {
+		return setDoublePrecision(Double.parseDouble(val), p);
+	}
+	
+	/**
+	 * Ustawia precyzje dla double
+	 * @param val wartosc double
+	 * @param p wartosc precyzji
+	 * @return wartosc double
+	 */
 	public static Double setDoublePrecision(Double val, int p) {
 		return BigDecimal
 				.valueOf(val)

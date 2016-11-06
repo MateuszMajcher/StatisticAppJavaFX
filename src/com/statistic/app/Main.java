@@ -150,9 +150,10 @@ public class Main extends Application {
 	/**
 	 * Wyswietlanie okna dodawania i edycji danych
 	 * @param data edytowany obiekt
+	 * @param isEstimate Czy pole tekstowe dla zmiennej objasnianej ma byc aktywne
 	 * @return czy zatwierdzono
 	 */
-	public boolean showEditDataDialog(Data data) {
+	public boolean showEditDataDialog(Data data, boolean isEstimate) {
 		try {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(Main.class.getResource("view/DataEdit.fxml"));
@@ -170,7 +171,7 @@ public class Main extends Application {
 			DataEditController controller = loader.getController();
 			controller.setStage(editStage);
 			controller.setData(data);
-			
+			controller.setEstimate(isEstimate);
 			editStage.showAndWait();
 			
 			return controller.isOkClick();

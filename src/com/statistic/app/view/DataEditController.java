@@ -38,7 +38,7 @@ public class DataEditController {
 	private Stage editStage;
 	private Data data;
 	private boolean isClick = false;
-	
+	private boolean isEtimate = false;
 	@FXML
 	private void initilaize() {}
 	
@@ -48,6 +48,13 @@ public class DataEditController {
 	 */
 	public void setStage(Stage stage) {
 		this.editStage = stage;
+	}
+	
+	/**Czy pole tekstowe dla zmiennej objasnianej ma byc aktywne
+	 * @param val true - aktywne
+	 */
+	public void setEstimate(boolean isEstimate) {
+		priceField.setDisable(isEstimate);
 	}
 	
 	/**

@@ -299,22 +299,19 @@ public class Statistics {
     
     /************************/
     /** 
-     * Calculates the median for a list of values (<code>Number</code> objects) 
-     * that are assumed to be in ascending order. 
+     * Obliczenie mediany 
      *  
-     * @param values  the values. 
-     * @param copyAndSort  a flag that controls whether the list of values is 
-     *                     copied and sorted. 
-     *  
-     * @return The median. 
+     * @param values  Lista wartosci 
+     * @param copyAndSort  czy maja byc sortowane. 
+     * @return mediana. 
      */ 
-    public static double calculateMedian(List values, boolean copyAndSort) { 
+    public static double calculateMedian(List<Double> values, boolean sort) { 
          
         double result = Double.NaN; 
         if (values != null) { 
-            if (copyAndSort) { 
+            if (sort) { 
                 int itemCount = values.size(); 
-                List copy = new ArrayList(itemCount); 
+                List<Double> copy = new ArrayList<Double>(itemCount); 
                 for (int i = 0; i < itemCount; i++) { 
                     copy.add(i, values.get(i));    
                 } 
@@ -345,38 +342,31 @@ public class Statistics {
     } 
     
     /** 
-     * Calculates the median for a sublist within a list of values  
-     * (<code>Number</code> objects). 
+     * Obliczenie mediany dla danego przedzialu listy
+     * @param values  Lista wartosci. 
+     * @param start  indeks pocztakowy. 
+     * @param end  indeks koncowy. 
      *  
-     * @param values  the values (in any order). 
-     * @param start  the start index. 
-     * @param end  the end index. 
-     *  
-     * @return The median. 
+     * @return mediana. 
      */ 
-    public static double calculateMedian(List values, int start, int end) { 
+    public static double calculateMedian(List<Double> values, int start, int end) { 
         return calculateMedian(values, start, end, true); 
     } 
 
     /** 
-     * Calculates the median for a sublist within a list of values  
-     * (<code>Number</code> objects).  The entire list will be sorted if the  
-     * <code>ascending</code< argument is <code>false</code>. 
+     * Obliczenie mediany dla danego przedzialu listy i opcianalnym sortowaniem
+     * @param values  Lista wartosci. 
+     * @param start  indeks pocztakowy. 
+     * @param sort  czy sortowac
      *  
-     * @param values  the values. 
-     * @param start  the start index. 
-     * @param end  the end index. 
-     * @param copyAndSort  a flag that that controls whether the list of values  
-     *                     is copied and sorted. 
-     *  
-     * @return The median. 
+     * @return mediana. 
      */ 
-    public static double calculateMedian(List values, int start, int end, 
+    public static double calculateMedian(List<Double> values, int start, int end, 
                                          boolean copyAndSort) { 
          
         double result = Double.NaN; 
         if (copyAndSort) { 
-            List working = new ArrayList(end - start + 1); 
+            List<Double> working = new ArrayList<Double>(end - start + 1); 
             for (int i = start; i <= end; i++) { 
                 working.add(values.get(i));   
             } 

@@ -9,23 +9,18 @@
    <top>
       <MenuBar BorderPane.alignment="CENTER">
         <menus>
-          <Menu mnemonicParsing="false" text="File">
+          <Menu mnemonicParsing="false" text="Plik">
             <items>
                   <MenuItem mnemonicParsing="false" onAction="#handleNew" text="Nowy" />
-                  <MenuItem mnemonicParsing="false" onAction="#handleOpenGroup" text="Otwórz populacje" />
-                  <MenuItem mnemonicParsing="false" onAction="#handleOpenSample" text="Otwórz grupe" />
+                  <MenuItem mnemonicParsing="false" onAction="#handleOpenGroup" text="Otwórz dane" />
+                  <MenuItem mnemonicParsing="false" onAction="#handleOpenSample" text="Otwórz dane do estymowania" />
                   <MenuItem mnemonicParsing="false" onAction="#handleSave" text="Zapisz" />
-                  <MenuItem mnemonicParsing="false" onAction="#handleSaveAsGroup" text="Zapisz populacje" />
-                  <MenuItem mnemonicParsing="false" onAction="#handleSaveAsSample" text="Zapisz grupe" />
+                  <MenuItem mnemonicParsing="false" onAction="#handleSaveAsGroup" text="Zapisz dane" />
+                  <MenuItem mnemonicParsing="false" onAction="#handleSaveAsSample" text="Zapisz dane do estymowania" />
               <MenuItem mnemonicParsing="false" onAction="#handleExit" text="Zamknij" />
             </items>
           </Menu>
-          <Menu mnemonicParsing="false" text="Edit">
-            <items>
-              <MenuItem mnemonicParsing="false" text="Delete" />
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="Help">
+          <Menu mnemonicParsing="false" text="O aplikacji">
             <items>
               <MenuItem mnemonicParsing="false" onAction="#handleAbout" text="About" />
             </items>

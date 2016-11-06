@@ -22,7 +22,7 @@
                <children>
                   <TabPane fx:id="tabs" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <tabs>
-                      <Tab text="Próba">
+                      <Tab text="Dane">
                         <content>
                           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                  <children>
@@ -98,7 +98,7 @@
                            <padding>
                               <Insets left="5.0" />
                            </padding></Label>
-                        <Label fx:id="count" prefHeight="17.0" prefWidth="52.0" text="0" GridPane.columnIndex="1">
+                        <Label fx:id="count" prefHeight="17.0" prefWidth="106.0" text="0" GridPane.columnIndex="1">
                            <padding>
                               <Insets left="5.0" />
                            </padding></Label>
@@ -110,11 +110,11 @@
                            <padding>
                               <Insets left="5.0" />
                            </padding></Label>
-                        <Label fx:id="max" prefHeight="17.0" prefWidth="53.0" text="0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                        <Label fx:id="max" prefHeight="17.0" prefWidth="108.0" text="0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                            <padding>
                               <Insets left="5.0" />
                            </padding></Label>
-                        <Label fx:id="min" prefHeight="19.0" prefWidth="52.0" text="0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                        <Label fx:id="min" prefHeight="19.0" prefWidth="108.0" text="0" GridPane.columnIndex="1" GridPane.rowIndex="2">
                            <padding>
                               <Insets left="5.0" />
                            </padding></Label>
@@ -122,34 +122,73 @@
                            <padding>
                               <Insets left="5.0" />
                            </padding></Label>
-                        <Label fx:id="average" prefHeight="17.0" prefWidth="51.0" text="0" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                        <Label fx:id="average" prefHeight="17.0" prefWidth="107.0" text="0" GridPane.columnIndex="1" GridPane.rowIndex="3">
                            <padding>
                               <Insets left="5.0" />
                            </padding></Label>
-                        <Label text="Mediana" GridPane.rowIndex="4" />
-                        <Label fx:id="median" prefHeight="17.0" prefWidth="54.0" text="0" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                        <Label text="Mediana" GridPane.rowIndex="4">
                            <padding>
                               <Insets left="5.0" />
                            </padding></Label>
-                        <Label text="odchylenie standardowe" GridPane.rowIndex="5" />
-                        <Label fx:id="standardDeviation" prefHeight="17.0" prefWidth="51.0" text="0" GridPane.columnIndex="1" GridPane.rowIndex="5">
+                        <Label fx:id="median" prefHeight="17.0" prefWidth="109.0" text="0" GridPane.columnIndex="1" GridPane.rowIndex="4">
                            <padding>
                               <Insets left="5.0" />
                            </padding></Label>
-                        <Label prefHeight="23.0" prefWidth="160.0" text="współ. korelacji lin. Pearsona" GridPane.rowIndex="6" />
-                        <Label fx:id="correlation" prefHeight="17.0" prefWidth="53.0" text="0" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-                        <Label prefHeight="17.0" prefWidth="157.0" text="równanie prostej regresji" GridPane.rowIndex="7" />
-                        <Label fx:id="rA" prefHeight="17.0" prefWidth="93.0" text="0" GridPane.columnIndex="1" GridPane.rowIndex="7" />
-                        <Label fx:id="rB" prefHeight="17.0" prefWidth="68.0" text="0" GridPane.columnIndex="2" GridPane.rowIndex="7" />
-                        <Label text="Kwartyliony" GridPane.rowIndex="8" />
-                        <Label fx:id="q1" text="0" GridPane.columnIndex="1" GridPane.rowIndex="8" />
-                        <Label fx:id="q3" text="0" GridPane.columnIndex="2" GridPane.rowIndex="8" />
-                        <Label fx:id="irq" text="0" GridPane.columnIndex="1" GridPane.rowIndex="9" />
-                        <Label text="Punkty oddalone" GridPane.rowIndex="10" />
-                        <Label fx:id="points" text="0" GridPane.columnIndex="1" GridPane.rowIndex="10" />
+                        <Label text="Odchylenie standardowe" GridPane.rowIndex="5">
+                           <padding>
+                              <Insets left="5.0" />
+                           </padding></Label>
+                        <Label fx:id="standardDeviation" prefHeight="17.0" prefWidth="108.0" text="0" GridPane.columnIndex="1" GridPane.rowIndex="5">
+                           <padding>
+                              <Insets left="5.0" />
+                           </padding></Label>
+                        <Label prefHeight="23.0" prefWidth="160.0" text="Współ. korelacji lin. Pearsona" GridPane.rowIndex="6">
+                           <padding>
+                              <Insets left="5.0" />
+                           </padding></Label>
+                        <Label fx:id="correlation" prefHeight="17.0" prefWidth="107.0" text="0" GridPane.columnIndex="1" GridPane.rowIndex="6">
+                           <padding>
+                              <Insets left="5.0" />
+                           </padding></Label>
+                        <Label prefHeight="17.0" prefWidth="157.0" text="Równanie prostej regresji" GridPane.rowIndex="7">
+                           <padding>
+                              <Insets left="5.0" />
+                           </padding></Label>
+                        <Label fx:id="rA" prefHeight="17.0" prefWidth="107.0" text="0" GridPane.columnIndex="1" GridPane.rowIndex="7">
+                           <padding>
+                              <Insets left="5.0" />
+                           </padding></Label>
+                        <Label fx:id="rB" prefHeight="17.0" prefWidth="92.0" text="0" GridPane.columnIndex="2" GridPane.rowIndex="7">
+                           <padding>
+                              <Insets left="5.0" />
+                           </padding></Label>
+                        <Label text="Kwartyliony" GridPane.rowIndex="8">
+                           <padding>
+                              <Insets left="5.0" />
+                           </padding></Label>
+                        <Label fx:id="q1" prefHeight="17.0" prefWidth="108.0" text="0" GridPane.columnIndex="1" GridPane.rowIndex="8">
+                           <padding>
+                              <Insets left="5.0" />
+                           </padding></Label>
+                        <Label fx:id="q3" prefHeight="17.0" prefWidth="91.0" text="0" GridPane.columnIndex="2" GridPane.rowIndex="8">
+                           <padding>
+                              <Insets left="4.0" />
+                           </padding></Label>
+                        <Label fx:id="irq" text="0" GridPane.columnIndex="1" GridPane.rowIndex="9">
+                           <padding>
+                              <Insets left="5.0" />
+                           </padding></Label>
+                        <Label text="Punkty oddalone" GridPane.rowIndex="10">
+                           <padding>
+                              <Insets left="5.0" />
+                           </padding></Label>
+                        <Label fx:id="points" text="0" GridPane.columnIndex="1" GridPane.rowIndex="10">
+                           <padding>
+                              <Insets left="5.0" />
+                           </padding></Label>
                      </children>
                   </GridPane>
-                  <Button fx:id="showStat" layoutX="305.0" layoutY="308.0" mnemonicParsing="false" text="Pokaż wykres" />
+                  <Button layoutX="305.0" layoutY="308.0" mnemonicParsing="false" onAction="#handleChart" text="Pokaż wykres" />
                </children>
             </AnchorPane>
         </items>

@@ -131,6 +131,8 @@ public class DataViewController{
 	JFreeChart chart;
 	XYDataset dataset;
 	
+	//precyzja 
+	static final int p_r = 3;
 	
 	
 	public DataViewController() {}
@@ -157,41 +159,11 @@ public class DataViewController{
 				setReferenceTab(idTabs);
 			}
 		});
-		
-		//wyswietlanie wykresu
-		showStat.setOnAction(
-		        new EventHandler<ActionEvent>() {
-		            @Override
-		            public void handle(ActionEvent event) {
-		                final Stage stage = new Stage();
-		                stage.initModality(Modality.APPLICATION_MODAL);
-		                stage.initOwner(main.getStage());
-		               
-		                
-						try {
-							
-							chart = createChart(dataset);
-							drawRegressionLine();
-			                ChartCanvas canvas = new ChartCanvas(chart);
-			                StackPane stackPane = new StackPane(); 
-			                stackPane.getChildren().add(canvas);  
-			                // Bind canvas size to stack pane size. 
-			                canvas.widthProperty().bind( stackPane.widthProperty()); 
-			                canvas.heightProperty().bind( stackPane.heightProperty());  
-			                stage.setScene(new Scene(stackPane)); 
-			                stage.setTitle("FXGraphics2DDemo1.java"); 
-			                stage.setWidth(700);
-			                stage.setHeight(390);
-			                stage.show();
-						} catch (IOException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-		     
-		            }
-		         });
+
 		
 	}
+	
+	
 
 	/**
 	 * Ustawienie referencji do main
@@ -205,6 +177,7 @@ public class DataViewController{
 		this.main = main;
 		dataTable.setItems(main.getData());
 		dataTableE.setItems(main.getSample());
+		//uatkualnienie statystyk
 		updateStatistic();
 		updateChart();
 		main.getData().addListener(new ListChangeListener <Data> () {
@@ -227,17 +200,19 @@ public class DataViewController{
 		        updateChart();
 		    }
 		});
-		
+		//Listener dla estymacji
 		main.getSample().addListener(new ListChangeListener <Data> () {
 		    @Override
 		    public void onChanged(javafx.collections.ListChangeListener.Change <? extends Data> c) {
 		        
 		        while (c.next()) {
 		            if (c.wasAdded()) {
-		                logger.info("Est Added: " + c);
-		                Data d = c.getAddedSubList().get(0);
-		                Double price = Statistics.Estimate(d.getPopulation(), regression[1],regression[0]);
-		                c.getAddedSubList().get(0).setPrice(price);
+		            	for (Data temp: c.getAddedSubList()) {
+		            		logger.info("Est Added: " + temp);
+		            		Data d = temp;
+		            		Double price = Statistics.Estimate(d.getPopulation(), regression[1],regression[0]);
+		            		temp.setPrice(price);
+		            	}
 		            } else if (c.wasUpdated()) {
 		                logger.info("Est Update");
 		            } else {
@@ -249,7 +224,7 @@ public class DataViewController{
 		       
 		    }
 		});
-		System.out.println("a"+Statistics.getPoints(main.getData(), q_1, q_3));
+		
 	}
 	
 	
@@ -262,13 +237,14 @@ public class DataViewController{
 		Statistics.Normalize(main.getData());
 		//Pobranie statystyk
 		DoubleSummaryStatistics stat = Statistics.getStats(main.getData(), Data::getPrice);
-		System.out.println(stat);
 		//Liczebnosc
 		count.setText(Long.toString(stat.getCount()));
 		//max
-		max.setText(Double.toString(stat.getMax()));
+		max.setText(Double.toString(
+				WindowUtil.setDoublePrecision(stat.getMax(), p_r)));
 		//min
-		min.setText(Double.toString(stat.getMin()));
+		min.setText(Double.toString(
+				WindowUtil.setDoublePrecision(stat.getMin(), p_r)));
 		
 		//wart oczekiwana
 		average.setText(Double.toString(stat.getAverage()));
@@ -284,14 +260,17 @@ public class DataViewController{
 		
 		//regresja
 		regression = Statistics.getLinearRegression(main.getData(), Data::getPopulation, Data::getPrice);
-		rA.setText("a="+ regression[0]);
-		rB.setText("b="+ regression[1]);
+		rA.setText("a="+ 
+				WindowUtil.setDoublePrecision(regression[0], p_r));
+		rB.setText("b="+ 
+				WindowUtil.setDoublePrecision(regression[1], p_r));
 		
 		//kwartyle
 		q_1 = Statistics.getQ1(main.getData(), Data::getPrice);
 		q_3 = Statistics.getQ3(main.getData(), Data::getPrice);
 		double ir_q = q_3 - q_1;
-		q1.setText("Q1 = " + Double.toString(q_1));
+		q1.setText("Q1 = " + 
+				WindowUtil.setDoublePrecision(Double.toString(q_1), p_r));
 		
 		q3.setText("Q3 = " + Double.toString(q_3));
 		irq.setText("IRQ = " + Double.toString(ir_q));
@@ -300,7 +279,7 @@ public class DataViewController{
 		points.setText(Double.toString(
 				Statistics.getPoints(main.getData(), q_1, q_3)));
 		
-	System.out.print("d"+Statistics.Estimate(1700000, regression[1],regression[0]));
+	
 		
 	}
 	
@@ -309,6 +288,39 @@ public class DataViewController{
 	 */
 	public void updateChart() {
 		dataset = createDataset();
+	}
+	
+	
+	/*
+	 * Wyswietlenie wykresu
+	 */
+	@FXML
+	private void handleChart() {
+		final Stage stage = new Stage();
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.initOwner(main.getStage());
+       
+        
+		try {
+			
+			chart = createChart(dataset);
+			drawRegressionLine();
+            ChartCanvas canvas = new ChartCanvas(chart);
+            StackPane stackPane = new StackPane(); 
+            stackPane.getChildren().add(canvas);  
+            // Bind canvas size to stack pane size. 
+            canvas.widthProperty().bind( stackPane.widthProperty()); 
+            canvas.heightProperty().bind( stackPane.heightProperty());  
+            stage.setScene(new Scene(stackPane)); 
+            stage.setTitle("Wykres"); 
+            stage.setWidth(700);
+            stage.setHeight(390);
+            stage.show();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 	}
 	
 	/**
@@ -346,7 +358,7 @@ public class DataViewController{
 	@FXML
 	private void handleNew() {
 		Data t = new Data();
-		boolean click = main.showEditDataDialog(t);
+		boolean click = main.showEditDataDialog(t, idTabs == 0 ? false : true);
 		if (click) {
 			if (idTabs == 0) 
 				main.getData().add(t);
@@ -362,7 +374,7 @@ public class DataViewController{
 	private void handleEdit() {
 		Data sel = tempTabs.getSelectionModel().getSelectedItem();
 		if (sel != null) {
-			boolean click = main.showEditDataDialog(sel);
+			 main.showEditDataDialog(sel, idTabs == 0 ? false : true);
 		} else {
 			WindowUtil.showAlert(AlertType.WARNING,
 					main.getStage(),
@@ -493,16 +505,6 @@ public class DataViewController{
 			XYItemRenderer renderer = new XYLineAndShapeRenderer(false, true);
 			plot.setRenderer(2, renderer);
 		}
-		
-		List<List<String>> readRecords(Path p) {
-	        try (BufferedReader reader = Files.newBufferedReader(p)) {
-	            return reader.lines()
-	            		.skip(1)
-	                    .map(line -> Arrays.asList(line.split(";")))
-	                    .collect(Collectors.toList());
-	        } catch (IOException e) {
-	            throw new UncheckedIOException(e);
-	        }
-	    }  
+	
 
 }
