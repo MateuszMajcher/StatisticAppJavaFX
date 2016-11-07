@@ -2,16 +2,9 @@ package com.statistic.app.view;
 
 import java.awt.Color;
 import java.awt.geom.Rectangle2D;
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.UncheckedIOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.Arrays;
 import java.util.DoubleSummaryStatistics;
-import java.util.List;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
@@ -35,8 +28,6 @@ import com.statistic.app.util.WindowUtil;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ListChangeListener;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -247,10 +238,12 @@ public class DataViewController{
 				WindowUtil.setDoublePrecision(stat.getMin(), p_r)));
 		
 		//wart oczekiwana
-		average.setText(Double.toString(stat.getAverage()));
+		average.setText(Double.toString(
+				WindowUtil.setDoublePrecision(stat.getAverage(), p_r)));
 		//mediana
-		median.setText(Double.toString(main.getData().size()!=0?
-				Statistics.getMedian(main.getData(),Data::getPrice):0));
+		median.setText(Double.toString(
+				WindowUtil.setDoublePrecision(main.getData().size()!=0?
+				Statistics.getMedian(main.getData(),Data::getPrice):0, p_r)));
 		//
 		standardDeviation.setText(Double.toString(main.getData().size()!=0?
 				Statistics.getStandardDeviation(main.getData(),Data::getPrice):0));
@@ -300,7 +293,6 @@ public class DataViewController{
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.initOwner(main.getStage());
        
-        
 		try {
 			
 			chart = createChart(dataset);
@@ -492,11 +484,16 @@ public class DataViewController{
 			}
 		}
 
+		/**
+		 * Rysowanie punktu dla estymacji
+		 * @param x punkt x
+		 * @param y punkt y
+		 */
 		private void drawInputPoint(double x, double y) {
-			// Create a new dataset with only one row
+		
 			XYSeriesCollection dataset = new XYSeriesCollection();
-			String title = "Input area: " + x + ", Price: " + y;
-			XYSeries series = new XYSeries(title);
+			
+			XYSeries series = new XYSeries("Estymacja");
 			series.add(x, y);
 			dataset.addSeries(series);
 

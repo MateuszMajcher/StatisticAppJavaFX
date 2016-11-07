@@ -1,5 +1,4 @@
 package com.statistic.app.util;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -13,7 +12,6 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import com.statistic.app.model.Data;
-import com.statistic.app.view.DataViewController;
 
 
 public class Statistics {
@@ -111,16 +109,16 @@ public class Statistics {
      * @param list
      * @return
      */
-    public static double variance(List<Double> list) {
+    public static double variance(List<Double> data) {
     	   double sumDiffsSquared = 0.0;
-    	   double avg = list.stream().mapToDouble(Double::new).average().getAsDouble();
-    	   for (double value : list)
+    	   double avg = data.stream().mapToDouble(Double::new).average().getAsDouble();
+    	   for (double value : data)
     	   {
     	       double diff = value - avg;
     	       diff *= diff;
     	       sumDiffsSquared += diff;
     	   }
-    	   return sumDiffsSquared  / (list.size()-1);
+    	   return sumDiffsSquared  / (data.size()-1);
     	}
     
     /**
@@ -128,13 +126,13 @@ public class Statistics {
      * @param m tablica wartosci
      * @return mediana
      */ 
-    public static double median(double[] m) {
-    	Arrays.sort(m);
-        int middle = m.length/2; 
-        if (m.length%2 == 1) {
-            return m[middle];
+    public static double median(double[] data) {
+    	Arrays.sort(data);
+        int middle = data.length/2; 
+        if (data.length%2 == 1) {
+            return data[middle];
         } else {
-           return (m[middle-1] + m[middle]) / 2.0;
+           return (data[middle-1] + data[middle]) / 2.0;
         }
     }
     
@@ -212,12 +210,13 @@ public class Statistics {
     }  
     
     /**
+     * Obliczenie
      * @param xList
      * @param yList
      * @return
      */
     public static double calculateDenominator(List<Double> xList,List<Double> yList){  
-        double standardDifference = 0.0;  
+       
         int size = xList.size();  
         double xAverage = 0.0;  
         double yAverage = 0.0;  
@@ -238,15 +237,15 @@ public class Statistics {
             xException += Math.pow(xList.get(i)-xAverage,2);  
             yException += Math.pow(yList.get(i)-yAverage, 2);  
         }   
-        return standardDifference = Math.sqrt(xException*yException);  
+        return  Math.sqrt(xException*yException);  
     }  
     
     
     /**
      * Oblicza a i b dla regresji liniowej
-     * @param x 
-     * @param y 
-     * @return 
+     * @param x wartosci x
+     * @param y wartosci y
+     * @return tablice zawierajaca a oraz b
      * @throws java.lang.IllegalArgumentException jesli tablice nie sa tego samego rozmiaru
      */
     public static Double[] LinearRegression(double[] x, double[] y) {
@@ -255,11 +254,11 @@ public class Statistics {
     	 double beta;
 
         if (x.length != y.length) {
-            throw new IllegalArgumentException("array lengths are not equal");
+            throw new IllegalArgumentException("tablice nie sa rowne");
         }
         N = x.length;
 
-        // first pass
+       
         double sumx = 0.0, sumy = 0.0, sumx2 = 0.0;
         for (int i = 0; i < N; i++) sumx  += x[i];
         for (int i = 0; i < N; i++) sumx2 += x[i]*x[i];
@@ -267,7 +266,7 @@ public class Statistics {
         double xbar = sumx / N;
         double ybar = sumy / N;
 
-        // second pass: compute summary statistics
+        
         double xxbar = 0.0, yybar = 0.0, xybar = 0.0;
         for (int i = 0; i < N; i++) {
             xxbar += (x[i] - xbar) * (x[i] - xbar);

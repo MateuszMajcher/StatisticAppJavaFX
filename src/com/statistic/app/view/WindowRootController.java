@@ -1,12 +1,10 @@
 package com.statistic.app.view;
 
 import java.io.File;
-import java.util.List;
 
 import com.statistic.app.Main;
 import com.statistic.app.model.Data;
 import com.statistic.app.util.WindowUtil;
-
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert.AlertType;
